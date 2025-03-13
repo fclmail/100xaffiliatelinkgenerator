@@ -1,37 +1,74 @@
 
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Link Generator</title>
+    <script>
+        function generateAffiliateLink() {
+            var email = document.getElementById('email').value;
+            var polygonAddress = document.getElementById('polygonAddress').value;
+            if (email && polygonAddress) {
+                var affiliateLink = 'https://100x-crypto.com/?ref=' + encodeURIComponent(email);
+                document.getElementById('affiliateLink').value = affiliateLink;
+            } else {
+                alert('Please fill in the email and Polygon address fields.');
+            }
+        }function submitForm() {
+        var email = document.getElementById('email').value;
+        var polygonAddress = document.getElementById('polygonAddress').value;
+        var affiliateLink = document.getElementById('affiliateLink').value;
+        
+        if (email && polygonAddress && affiliateLink) {
+            var formUrl = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse'; // Replace with actual Form ID
+            var formData = new FormData();
+            formData.append('entry.2005620554', email); // Replace with actual email entry ID
+            formData.append('entry.1045781291', polygonAddress); // Replace with actual Polygon address entry ID
+            formData.append('entry.1068854351', affiliateLink); // Replace with actual affiliate link entry ID
+            
+            fetch(formUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // Required for Google Forms submission
+            })
+            .then(response => alert("Form submitted successfully!"))
+            .catch(error => alert("There was an error submitting the form."));
+        } else {
+            alert('Please fill in all fields before submitting.');
+        }
+    }
 
+    function copyLink() {
+        var affiliateLink = document.getElementById('affiliateLink').value;
+        if (affiliateLink) {
+            navigator.clipboard.writeText(affiliateLink).then(() => {
+                alert('Affiliate link copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy link: ' + err);
+            });
+        } else {
+            alert('No affiliate link to copy.');
+        }
+    }
+</script>
 
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Affiliate Link Generator</title>  
-    <style>  
-        body { font-family: Arial, sans-serif; margin: 20px; }  
-        label { display: block; margin: 10px 0 5px; }  
-        input, button { padding: 10px; width: 300px; margin-top: 10px; }  
-    </style>  
-</head>  
-<body>  
-    <h1>Generate Your Affiliate Link</h1>  
+</head>
+<body>
+    <h1>Affiliate Link Generator</h1>
+    <form id="affiliateForm" onsubmit="event.preventDefault(); submitForm();">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required><br><br><label for="polygonAddress">Polygon Address:</label>
+    <input type="text" id="polygonAddress" name="polygonAddress" required><br><br>
+    
+    <button type="button" onclick="generateAffiliateLink()">Generate Affiliate Link</button><br><br>
+    
+    <label for="affiliateLink">Generated Affiliate Link:</label>
+    <input type="text" id="affiliateLink" name="affiliateLink" readonly><br><br>
+    
+    <button type="button" onclick="copyLink()">Copy Link</button><br><br>
+    
+    <button type="submit">Submit</button>
+</form>
 
-    <label for="affiliateCode">Enter Your Affiliate Code:</label>  
-    <input type="text" id="affiliateCode" placeholder="your_affiliate_code">  
-
-    <button onclick="generateAffiliateLink()">Generate Affiliate Link</button>  
-
-    <h2>Your Affiliate Link:</h2>  
-    <input type="text" id="affiliateLink" readonly style="width: 100%;">  
-
-    <script>  
-        function generateAffiliateLink() {  
-            const baseUrl = "https://www.100x-crypto.com?ref=";  
-            const affiliateCode = document.getElementById("affiliateCode").value;  
-            const affiliateLink = baseUrl + encodeURIComponent(affiliateCode);  
-
-            document.getElementById("affiliateLink").value = affiliateLink;  
-        }  
-    </script>  
-</body>  
+</body>
 </html>
